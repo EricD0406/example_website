@@ -29,4 +29,54 @@ In this paper, through the study of the 2017 General Social Survey (GSS) on the 
 
 For analysis, we will firstly do data-cleaning to choose and preserve variables of our interest, which include number_total_children_intention, age, sex, education, self_rated_health, and self_rated_mental_health. To further investigate the demographic distribution of respondents, we also include income_respondent and region. With regard to the model, we would like to use Logistic Regression to analyze the effect of above factors on people's intention for whether or not having children.
 
+```{r, echo = FALSE, message=FALSE}
+#install.packages("tidyverse")
+#install.packages("dplyr")
+#install.packages("kableExtra")
+#install.packages("survey")
+library(tidyverse)
+library(dplyr)
+library(kableExtra)
+library(survey)
+fig_cap <- captioner::captioner()
+tab_cap <- captioner::captioner("Table")
+
+```
+
+
+## Data
+
+The data used in the following analysis was obtained from the 2017 General Social Survey (GSS) on the Family and cleaned using an R Package created by Alexander and Caetano (2020). Two primary objectives of the GSS are to gather data on social trends to monitor changes in the living conditions and well-being of Canadians over time, and to provide information on specific social policy. 
+
+### Key Features
+
+The 2017 GSS focused on families' characteristics, diversity and future. Two comprised components of the data are core content and classification variables, of which the core content is to measure changes in well-being, and effects of specific policy issues, and classification variables (such as, age, sex, education and income) are to collect demographic information for use in the analysis of core data.
+
+### Methodology
+
+The data set consists of both numerical variables and categorical variables which exhibits the demographics and characteristics of families in Canada. The target population for the 2017 GSS included all persons 15 years of age older in Canada, excluding residents of the Yukon, Northwest Territories, and Nunavut, and full-time residents of institutions. Regarding the probability sampling method, they use stratified random sampling by dividing 10 provinces into strata, which are geographic areas. With many of the Census Metropolitan Areas (CMAs) being considered as separate strata, there were 27 strata in total. Using stratified random sampling can reduce the bias and variability of results, because within one strata, additional samples are homogeneous, thus statistics for sampled values will vary less across samples.
+
+The sampling frame of the data was a combination of the list of telephone number (both landline and cellular) in use available to Statistics Canada and the Address Register (AR), which is the list of all dwellings within the 10 provinces. They use all telephone numbers (linked and not linked to the AR), which could make sure a coverage of all households with telephones. They also included cellular phone number this year, which enlarged the frame by adding households without landlines. Because many young families might not have landlines nowadays.
+
+Within each geographic stratum, they carry out a simple random sampling without replacement to obtain the sample. The target sample size was 20,000, while the actual number of respondents was 20,602. The sample size was large, and was proportionally chosen from 10 provinces, therefore, the sample was representative of the target population. However, households without telephones or not registered on AR were just excluded from the sampled population. This would omit new families who had not had the chance to register and the families with poor economic conditions who could not afford the telephone bills.
+
+Data collection for the 2017 GSS was conducted via computer assisted telephone interviews (CATI) in the official language of respondents' choice. The interview calls were made from approximately 9 AM to 9:30 PM on workdays, with schedule extension from 10 AM to 5 PM on Saturdays and 1 PM to 9 PM on Sundays. The extension of interview schedule made it more flexible for respondents, which could help increase the response rate. However, calls were only made during the daytime on weekdays, and it was very likely that there was no one at home for working families during those times. This could cause an obvious decline of response rate.
+
+For non-response, they re-contacted up to two more times to explain the importance of the survey to those who refused to participate at first. They also arranged appointment to call back at a more convenient time for those who were inconvenient at the first call. For cases in which there was no one at home, numerous call backs were made. The combination of these strategies dealing with 3 different situations would increase the response rate. However, the associated costs were high due to large time and human resources consumption. Besides, the re-arrangement of the interview could not be very efficient, because respondents might be unavailable again during the newly-scheduled time, or they might forget it.
+
+### Data Type and Selection
+
+In our analysis, we will focus on the variable number_total_children_intention, age, sex, income_respondent, education, self_rated_health, and self_rated_mental_health. Since we would like to investigate the factors influencing people's intention for having children, we will use number_total_children_intention as our response variable in the model. Another similar variable in the dataset is future_children_intention, which is a categorical variable. We decided to choose number_total_children_intention as our response variable, because the answers for the question collecting data for future_children_intention are different categories, "Probably yes" and "Probably no" are too ambiguous for analysis. We are not sure respondents' true intention for children by referring these category anwers. While number_total_children_intention is a numerical variable with certain numerical answers, which is easier for quantity analysis, and to be transformed to a binary variable.
+
+
+### Questionnaire for Data Collection
+
+For variable age, it is confirmed by asking the respondents to provide their date of birth. With this variable provided, some questions later in the survey are then determined to be asked or not. It enhances the accuracy of this variable and responses related to this variable. Nevertheless, since the survey was conducted through a phone call, it becomes more difficult to verify the information.
+
+For variable income, no questions would be asked, and the information would be obtained through a linkage to tax data. This will increase the quality of this variable as it eliminate the burden of respondents. One thing to notice is that there were people who rejected the linkage and no linkage to their tax data took place.
+
+For variable self_rated_health and self_rated_mental_health, the question was "In general, would you say your (mental) health is...?". They provided a range for respondents to make it more convenient for them to answer. However, the questions might be too general, because they did not clearly explain what each category means. For example, 'Poor" in terms of mental health could mean that you always feel unhappy and disordered and you feel hopeless about life.
+
+For variable number_total_children_intention, it collected people's intentions about giving birthing or having more children. Moreover, questions about what contraceptive methods they use are also asked. Therefore, the result should be of high quality and give a clearer picture of fertility. However, there were more than half of repsondents just skipped this question.
+
 
