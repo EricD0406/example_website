@@ -1,11 +1,13 @@
 ---
-title: "Test"
-author: "Wuxin Dong"
-date: "10/13/2020"
+title: "What Affects People's Intention to Have Children in Canada"
+author: "Sheng Kai, Shiqi Liu, Wuxin Dong"
+date: '2020-10-19'
 bibliography: "references.bib"
 output: html_document
 ---
 
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 
 <div id="authors-sheng-kai-shiqi-liu-wuxin-dong" class="section level1">
@@ -52,6 +54,870 @@ output: html_document
 <p>For variable income, no questions would be asked, and the information would be obtained through a linkage to tax data. This will increase the quality of this variable as it eliminate the burden of respondents. One thing to notice is that there were people who rejected the linkage and no linkage to their tax data took place.</p>
 <p>For variable self_rated_health and self_rated_mental_health, the question was “In general, would you say your (mental) health is…?”. They provided a range for respondents to make it more convenient for them to answer. However, the questions might be too general, because they did not clearly explain what each category means. For example, ’Poor" in terms of mental health could mean that you always feel unhappy and disordered and you feel hopeless about life.</p>
 <p>For variable number_total_children_intention, it collected people’s intentions about giving birthing or having more children. Moreover, questions about what contraceptive methods they use are also asked. Therefore, the result should be of high quality and give a clearer picture of fertility. However, there were more than half of repsondents just skipped this question.</p>
+</div>
+<div id="raw-data-overview" class="section level3">
+<h3>Raw Data Overview</h3>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-2">Table 1: </span>Respondent Demographics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:right;">
+Count
+</th>
+<th style="text-align:right;">
+Proportion
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="2">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Sex</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Female
+</td>
+<td style="text-align:right;">
+11203
+</td>
+<td style="text-align:right;">
+54 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Male
+</td>
+<td style="text-align:right;">
+9399
+</td>
+<td style="text-align:right;">
+46 %
+</td>
+</tr>
+<tr grouplength="8">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Education</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Bachelor’s degree (e.g. B.A., B.Sc., LL.B.)
+</td>
+<td style="text-align:right;">
+3753
+</td>
+<td style="text-align:right;">
+18 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+College, CEGEP or other non-university certificate or di…
+</td>
+<td style="text-align:right;">
+4566
+</td>
+<td style="text-align:right;">
+22 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+High school diploma or a high school equivalency certificate
+</td>
+<td style="text-align:right;">
+4848
+</td>
+<td style="text-align:right;">
+24 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Less than high school diploma or its equivalent
+</td>
+<td style="text-align:right;">
+3036
+</td>
+<td style="text-align:right;">
+15 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Trade certificate or diploma
+</td>
+<td style="text-align:right;">
+1483
+</td>
+<td style="text-align:right;">
+7 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+University certificate or diploma below the bachelor’s level
+</td>
+<td style="text-align:right;">
+732
+</td>
+<td style="text-align:right;">
+4 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+University certificate, diploma or degree above the bach…
+</td>
+<td style="text-align:right;">
+1843
+</td>
+<td style="text-align:right;">
+9 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+NA
+</td>
+<td style="text-align:right;">
+341
+</td>
+<td style="text-align:right;">
+2 %
+</td>
+</tr>
+<tr grouplength="7">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Self Rated Mental Health</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Don’t know
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Excellent
+</td>
+<td style="text-align:right;">
+6080
+</td>
+<td style="text-align:right;">
+30 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Fair
+</td>
+<td style="text-align:right;">
+1296
+</td>
+<td style="text-align:right;">
+6 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Good
+</td>
+<td style="text-align:right;">
+5813
+</td>
+<td style="text-align:right;">
+28 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Poor
+</td>
+<td style="text-align:right;">
+326
+</td>
+<td style="text-align:right;">
+2 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Very good
+</td>
+<td style="text-align:right;">
+6924
+</td>
+<td style="text-align:right;">
+34 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+NA
+</td>
+<td style="text-align:right;">
+106
+</td>
+<td style="text-align:right;">
+1 %
+</td>
+</tr>
+<tr grouplength="7">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Self Rated Health</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Don’t know
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Excellent
+</td>
+<td style="text-align:right;">
+4376
+</td>
+<td style="text-align:right;">
+21 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Fair
+</td>
+<td style="text-align:right;">
+2078
+</td>
+<td style="text-align:right;">
+10 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Good
+</td>
+<td style="text-align:right;">
+6162
+</td>
+<td style="text-align:right;">
+30 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Poor
+</td>
+<td style="text-align:right;">
+816
+</td>
+<td style="text-align:right;">
+4 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Very good
+</td>
+<td style="text-align:right;">
+7014
+</td>
+<td style="text-align:right;">
+34 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+NA
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+0 %
+</td>
+</tr>
+<tr grouplength="6">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Income Respondent</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+$100,000 to $ 124,999
+</td>
+<td style="text-align:right;">
+846
+</td>
+<td style="text-align:right;">
+4 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+$125,000 and more
+</td>
+<td style="text-align:right;">
+885
+</td>
+<td style="text-align:right;">
+4 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+$25,000 to $49,999
+</td>
+<td style="text-align:right;">
+6173
+</td>
+<td style="text-align:right;">
+30 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+$50,000 to $74,999
+</td>
+<td style="text-align:right;">
+3896
+</td>
+<td style="text-align:right;">
+19 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+$75,000 to $99,999
+</td>
+<td style="text-align:right;">
+2030
+</td>
+<td style="text-align:right;">
+10 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Less than $25,000
+</td>
+<td style="text-align:right;">
+6772
+</td>
+<td style="text-align:right;">
+33 %
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table 1: Raw Data Overview</p>
+<p>As shown in table 1, it gives people a brief overview of our selected raw data. Since the report will review the results of the clean version of this table which will be table 3 in our result part, we will focus on what changes we need to make to our raw data. We can see that there are NAs in Education and Self rated health. In addition, there are “Don’t know” in the self rated mental health and self rated health. Therefore, we would consider to remove these unknowns as to make our analysis more useful. Furthermore, we can see from education that there are so many categories under it and we may need to group some of them together to make our report cleaner and more representative. Last but not the least, number_total_children_intention and age are not included in this table because they are numeric variables. As a result, we decided to clean our data by putting age into different 5 age groups and number_total_children_intention into 2 groups with yes and no.</p>
+</div>
+</div>
+<div id="model" class="section level2">
+<h2>Model</h2>
+<div id="data-cleaning" class="section level3">
+<h3>Data Cleaning</h3>
+<p>As mentioned before, we will focus on the variable number_total_children_intention, age, sex, income_respondent, education, self_rated_health, and self_rated_mental_health. We cleaned our data by renaming self_rated_health as health, self_rated_mental_health as mental_health, income_respondent as income and number_total_children_intention as children_intention. Then, we have removed all NAs in the children_intention and education as they were meaningless for our later analysis. For the same reason, we have also decided to remove all “Don’t know” values in the variables health and mental_health.</p>
+<p>In addition, we divided age into 5 groups, which were 15 - 25, 25 -35, 35-45, 45-55 and above 55. The reason we did that is that we would like to look at the percentage in each age group later in our table 1: Respondent Demographic. After that, we have also renamed and reduced the categories of the degrees as to make our later analysis clearer. The details about how we renamed and reduced the categories of the degrees under education will be in our appendix^1. In the end, since the majority of the responses for the question “Total number of children intending to have” are 0, we decide to divide the responses into two categories “1” and “0”. Responses greater than 0 will be redefined as “1”, while answers with 0 correspond to “0”. Therefore, by running the logistic regression, we would like to find what affects people’s decision on whether or not to have children. This binary variable with “1” representing people having fertility intention, while 0 representing people with no intention for having children.</p>
+<p>We divided respondents to different age groups when exhibiting the demographic table because this will makes it more convenient to identify the distribution of respondents’ ages at the aggregate level. However, in our logistic regression model, we still use age rather than age groups, since we would like to see if there is a trend that people’s intentions for children will decrease as age increases. Therefore, using age would be more helpful for our analysis. Besides, gender and education level, health conditions are all categorical variables, because these variables’ values represent different categories of respondents. Among these categorical variables, except gender, all other 3 are ordinal categorical variables, because they represent different levels in which respondents are.</p>
+</div>
+<div id="model-building-and-selection" class="section level3">
+<h3>Model building and selection</h3>
+<p>We selected children_intention as the response variable, which represents whether people want to have children or not, while the candidate predictor variables include age, sex, self rated health, self rated mental health and education. Since children intention is a binary response variable that has two possible outcomes, a logistic regression model was fitted to estimate the probability that someone intend to have children using all predictor variables. The reason why linear regression model is not appropriate here is that it will cause the response variable to exceed 1 or drop below 0, while probability must be between 0 and 1. Logistic regression model works better in predicting binary response variable as it take the form of log(<span class="math inline">\(\frac{p}{1-p}\)</span>) = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1X_1\)</span> + <span class="math inline">\(\beta_2X_2\)</span> + <span class="math inline">\(\cdots\)</span> + <span class="math inline">\(\beta_kX_k\)</span> In current study, p represents the probability of intention to have children, Xs represent the value of predictor variables, and <span class="math inline">\(\beta\)</span>s are the coefficients that we want to derive from the fitted model.
+Also, as we are using a survey data, we applied finite population correction to adjust the variance estimate for our estimated mean probability of intention to have children. The target population size is 30302287 by estimation, and the sample size after data cleaning is 8339.
+In terms of software, we have used Rstudio to run out model.
+According to the first model (table 2) fitted using all candidate predictors, self rated health was not statistically significant, suggesting that people rated their health condition in different levels won’t affect their intention to have children. Therefore, we removed self rated health from the predictors, and the final model only include age, sex, self rated mental health and education as predictor variables.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Coefficients</th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td align="center">6.735434</td>
+<td align="center">0.181971</td>
+<td align="center">37.014</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="even">
+<td>age</td>
+<td align="center">-0.197509</td>
+<td align="center">0.004705</td>
+<td align="center">-41.976</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="odd">
+<td>sexMale</td>
+<td align="center">0.678505</td>
+<td align="center">0.059234</td>
+<td align="center">11.455</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="even">
+<td>healthFair</td>
+<td align="center">0.135754</td>
+<td align="center">0.163250</td>
+<td align="center">0.832</td>
+<td align="center">0.405675</td>
+</tr>
+<tr class="odd">
+<td>healthGood</td>
+<td align="center">0.059717</td>
+<td align="center">0.089997</td>
+<td align="center">0.664</td>
+<td align="center">0.507006</td>
+</tr>
+<tr class="even">
+<td>healthPoor</td>
+<td align="center">-0.179565</td>
+<td align="center">0.273441</td>
+<td align="center">-0.657</td>
+<td align="center">0.511400</td>
+</tr>
+<tr class="odd">
+<td>healthVery good</td>
+<td align="center">-0.005551</td>
+<td align="center">0.078291</td>
+<td align="center">-0.071</td>
+<td align="center">0.943480</td>
+</tr>
+<tr class="even">
+<td>mental_healthFair</td>
+<td align="center">-0.983360</td>
+<td align="center">0.145937</td>
+<td align="center">-6.738</td>
+<td align="center">1.71e-11 ***</td>
+</tr>
+<tr class="odd">
+<td>mental_healthGood</td>
+<td align="center">-0.437811</td>
+<td align="center">0.088014</td>
+<td align="center">-4.974</td>
+<td align="center">6.68e-07 ***</td>
+</tr>
+<tr class="even">
+<td>mental_healthPoor</td>
+<td align="center">-1.116372</td>
+<td align="center">0.266125</td>
+<td align="center">-4.195</td>
+<td align="center">2.76e-05 ***</td>
+</tr>
+<tr class="odd">
+<td>mental_healthVery good</td>
+<td align="center">-0.280481</td>
+<td align="center">0.077857</td>
+<td align="center">-3.603</td>
+<td align="center">0.000317 ***</td>
+</tr>
+<tr class="even">
+<td>educationBelow High School</td>
+<td align="center">-1.295755</td>
+<td align="center">0.148857</td>
+<td align="center">-8.705</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="odd">
+<td>educationCollege</td>
+<td align="center">-0.258151</td>
+<td align="center">0.069528</td>
+<td align="center">-3.713</td>
+<td align="center">0.000206 ***</td>
+</tr>
+<tr class="even">
+<td>educationHigh School</td>
+<td align="center">-0.704451</td>
+<td align="center">0.086347</td>
+<td align="center">-8.158</td>
+<td align="center">3.90e-16 ***</td>
+</tr>
+<tr class="odd">
+<td>educationTrade Cert</td>
+<td align="center">-0.448523</td>
+<td align="center">0.116699</td>
+<td align="center">-3.843</td>
+<td align="center">0.000122 ***</td>
+</tr>
+</tbody>
+</table>
+<p>Table 2: First Model with age, sex, health, mental_health, education as predictors</p>
+</div>
+</div>
+<div id="result" class="section level2">
+<h2>Result</h2>
+<p>The results will be presented in 3 sections according to the following characteristics: numeric results from logistic model, demographic profile and children intention under each variable.</p>
+<div id="numeric-results-from-logistic-model" class="section level3">
+<h3>Numeric Results from Logistic Model</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Coefficients</th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td align="center">6.729232</td>
+<td align="center">0.180621</td>
+<td align="center">37.256</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="even">
+<td>age</td>
+<td align="center">-0.197160</td>
+<td align="center">0.004684</td>
+<td align="center">-42.088</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="odd">
+<td>sexMale</td>
+<td align="center">0.679359</td>
+<td align="center">0.059191</td>
+<td align="center">11.477</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="even">
+<td>mental_healthFair</td>
+<td align="center">-0.946465</td>
+<td align="center">0.135755</td>
+<td align="center">-6.972</td>
+<td align="center">3.37e-12 ***</td>
+</tr>
+<tr class="odd">
+<td>mental_healthGood</td>
+<td align="center">-0.410005</td>
+<td align="center">0.076675</td>
+<td align="center">-5.347</td>
+<td align="center">9.17e-08 ***</td>
+</tr>
+<tr class="even">
+<td>mental_healthPoor</td>
+<td align="center">-1.107626</td>
+<td align="center">0.247633</td>
+<td align="center">-4.473</td>
+<td align="center">7.82e-06 ***</td>
+</tr>
+<tr class="odd">
+<td>mental_healthVery good</td>
+<td align="center">-0.279409</td>
+<td align="center">0.070868</td>
+<td align="center">-3.943</td>
+<td align="center">8.13e-05 ***</td>
+</tr>
+<tr class="even">
+<td>educationBelow High School</td>
+<td align="center">-1.284758</td>
+<td align="center">0.148362</td>
+<td align="center">-8.660</td>
+<td align="center">&lt; 2e-16 ***</td>
+</tr>
+<tr class="odd">
+<td>educationCollege</td>
+<td align="center">-0.256493</td>
+<td align="center">0.069484</td>
+<td align="center">-3.691</td>
+<td align="center">0.000224 ***</td>
+</tr>
+<tr class="even">
+<td>educationHigh School</td>
+<td align="center">-0.698500</td>
+<td align="center">0.085857</td>
+<td align="center">-8.136</td>
+<td align="center">4.70e-16 ***</td>
+</tr>
+<tr class="odd">
+<td>educationTrade Cert</td>
+<td align="center">-0.445445</td>
+<td align="center">0.116397</td>
+<td align="center">-3.827</td>
+<td align="center">0.000131 ***</td>
+</tr>
+</tbody>
+</table>
+<p>Table 3: Final Model with age, sex, mental_health, education as predictors</p>
+<p>As shown in table 3 above, for every unit increase in age, we expect the log odds of intention of having children to decrease by 0.197. When the respondent is a male, then we expect the log odds of intention of having children to increase by 0.679. When the mental health situation are poor, fair, good, very good or excellent, we expect the log odds of intention of having children to decrease by 1.107, 0.946, 0.41, 0.279 or 0 respectively. When the education level is below high school, high school, trade cert, college or bachelor, we expect the log odds of intention of having children to decrease by 1.284, 0.699, 0.445, 0.257.</p>
+</div>
+<div id="demographic-profile" class="section level3">
+<h3>Demographic Profile</h3>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-6">Table 2: </span>Respondent Demographics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:right;">
+Count
+</th>
+<th style="text-align:right;">
+Proportion
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="2">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Sex</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Female
+</td>
+<td style="text-align:right;">
+4274
+</td>
+<td style="text-align:right;">
+52 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Male
+</td>
+<td style="text-align:right;">
+3955
+</td>
+<td style="text-align:right;">
+48 %
+</td>
+</tr>
+<tr grouplength="5">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Age</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+15-25
+</td>
+<td style="text-align:right;">
+1363
+</td>
+<td style="text-align:right;">
+17 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+25-35
+</td>
+<td style="text-align:right;">
+2440
+</td>
+<td style="text-align:right;">
+30 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+35-45
+</td>
+<td style="text-align:right;">
+2861
+</td>
+<td style="text-align:right;">
+35 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+45-55
+</td>
+<td style="text-align:right;">
+1447
+</td>
+<td style="text-align:right;">
+18 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+55-80
+</td>
+<td style="text-align:right;">
+118
+</td>
+<td style="text-align:right;">
+1 %
+</td>
+</tr>
+<tr grouplength="5">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Education</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Bachelor
+</td>
+<td style="text-align:right;">
+2830
+</td>
+<td style="text-align:right;">
+34 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Below High School
+</td>
+<td style="text-align:right;">
+755
+</td>
+<td style="text-align:right;">
+9 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+College
+</td>
+<td style="text-align:right;">
+2269
+</td>
+<td style="text-align:right;">
+28 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+High School
+</td>
+<td style="text-align:right;">
+1787
+</td>
+<td style="text-align:right;">
+22 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Trade Cert
+</td>
+<td style="text-align:right;">
+588
+</td>
+<td style="text-align:right;">
+7 %
+</td>
+</tr>
+<tr grouplength="5">
+<td colspan="3" style="border-bottom: 1px solid;">
+<strong>Mental_Health</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Excellent
+</td>
+<td style="text-align:right;">
+2425
+</td>
+<td style="text-align:right;">
+29 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Fair
+</td>
+<td style="text-align:right;">
+569
+</td>
+<td style="text-align:right;">
+7 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Good
+</td>
+<td style="text-align:right;">
+2248
+</td>
+<td style="text-align:right;">
+27 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Poor
+</td>
+<td style="text-align:right;">
+146
+</td>
+<td style="text-align:right;">
+2 %
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Very good
+</td>
+<td style="text-align:right;">
+2841
+</td>
+<td style="text-align:right;">
+35 %
+</td>
+</tr>
+</tbody>
+</table>
+<p>Table 4: Respondent Demographic</p>
+<p>As shown in table 4, 52% female and 48% male constituted our selected respondents. For Age, the breakdown consisted of 17% between 15 and 25, 30% between 25 - 35, 35% between 35 - 45, 18% of 45 - 55 and 1 % above 55. For education, the breakdowns included 34% bachelor’s degree and above, 9% below high school degree, 28% college degree, 22% high school degree and 7% trade certificates. For mental health, the responses consisted of 29% excellent, 7% fair, 27% good, 2% poor and 35% very good.</p>
+</div>
+<div id="children-intention-under-each-variable" class="section level3">
+<h3>Children Intention under Each Variable</h3>
+<p><img src="/post/test_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Figure 1: Chilren Intention</p>
+<p>As shown in figure 1, about 59% of the respondents have no intention to have a kid and 41 % of the respondents have intention to have one or more kids.</p>
+<p><img src="/post/test_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Figure 2: Children Intention by sex</p>
+<p>As shown in figure 2, female respondents have a 63.3% intention of not having a child. Male respondents have a 54.6% intention of not having a child.</p>
+<p><img src="/post/test_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Figure 3: Children Intention by education</p>
+<p>As shown in figure 3, 60.8% of respondents with bachelor degree have no fertility intentions, 42% of respondents with below high school degree have no fertility intentions, 64.2% of respondents with college degree have no fertility intentions, 56.1 % of respondents with high school degree have no fertility intentions and 62.2% of respondents with trade certificates no fertility intentions.</p>
+<p><img src="/post/test_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Figure 4: Children Intention by mental health</p>
+<p>As shown in figure 4, 53.4% of respondents with excellent mental health have no fertility intentions, 65.2% of respondents with fair mental health have no fertility intentions, 62.8 % of respondents with good mental health have no fertility intentions, 66.4% of respondents with poor mental health have no fertility intentions and 59.5% of respondents with very good mental health have no fertility intentions.</p>
+<p><img src="/post/test_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Figure 5: Children Intention by age_group</p>
+<p>As shown in figure 5, 16.4% of respondents of age between 15 and 25 have no fertility intentions, 36.1% of respondents of age between 25 and 35 have no fertility intentions, 79.4% of respondents of age between 35 and 45 have no fertility intentions, 95.2 % of respondents of age between 45 and 55 have no fertility intentions and 94.1% of respondents of age between 55 and 88 have no fertility intentions.</p>
 </div>
 </div>
 </div>

@@ -1,7 +1,7 @@
 ---
-title: "Test"
-author: "Wuxin Dong"
-date: "10/13/2020"
+title: "What Affects People's Intention to Have Children in Canada"
+author: "Sheng Kai, Shiqi Liu, Wuxin Dong"
+date: '2020-10-19'
 bibliography: "references.bib"
 output: html_document
 ---
@@ -78,5 +78,290 @@ For variable income, no questions would be asked, and the information would be o
 For variable self_rated_health and self_rated_mental_health, the question was "In general, would you say your (mental) health is...?". They provided a range for respondents to make it more convenient for them to answer. However, the questions might be too general, because they did not clearly explain what each category means. For example, 'Poor" in terms of mental health could mean that you always feel unhappy and disordered and you feel hopeless about life.
 
 For variable number_total_children_intention, it collected people's intentions about giving birthing or having more children. Moreover, questions about what contraceptive methods they use are also asked. Therefore, the result should be of high quality and give a clearer picture of fertility. However, there were more than half of repsondents just skipped this question.
+
+### Raw Data Overview
+
+
+```{r, echo = FALSE}
+gss <- read.csv("gss.csv")
+#Raw Data Table
+raw_data <- gss%>%select(number_total_children_intention, age, sex,
+                      education, self_rated_health,
+                      self_rated_mental_health, income_respondent)
+
+
+sex <- raw_data%>%group_by(sex)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(raw_data),2)*100,"%"))
+education <- raw_data%>%group_by(education)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(raw_data),2)*100,"%"))
+self_rated_mental_health <- raw_data%>%group_by(self_rated_mental_health)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(raw_data),2)*100,"%"))
+self_rated_health <- raw_data%>%group_by(self_rated_health)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(raw_data),2)*100,"%"))
+income_respondent <- raw_data%>%group_by(income_respondent)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(raw_data),2)*100,"%"))
+
+
+demogr1 <- rbind(sex,
+                education%>%rename(sex=education),
+                self_rated_mental_health%>%rename(sex=self_rated_mental_health),
+                self_rated_health%>%rename(sex=self_rated_health),
+                income_respondent%>%rename(sex=income_respondent))
+colnames(demogr1) <- c("Variable", "Count", "Proportion")
+
+demogr1 <- demogr1%>%kbl(caption="Respondent Demographics",
+                       align=c("lrr"))%>%
+pack_rows("Sex",1,2)%>%pack_rows("Education",3,10)%>%pack_rows("Self Rated Mental Health",11,17)%>%pack_rows("Self Rated Health",18,24)%>%pack_rows("Income Respondent",25,30)
+demogr1
+```
+`r tab_cap(1,"Raw Data Overview")`
+
+As shown in table 1, it gives people a brief overview of our selected raw data. Since the report will review the results of the clean version of this table which will be table 3 in our result part, we will focus on what changes we need to make to our raw data. We can see that there are NAs in Education and Self rated health. In addition, there are "Don't know" in the self rated mental health and self rated health. Therefore, we would consider to remove these unknowns as to make our analysis more useful. Furthermore, we can see from education that there are so many categories under it and we may need to group some of them together to make our report cleaner and more representative. Last but not the least, number_total_children_intention and age are not included in this table because they are numeric variables. As a result, we decided to clean our data by putting age into different 5 age groups and number_total_children_intention into 2 groups with yes and no. 
+
+
+## Model
+
+```{r, echo = FALSE}
+#Variables of interest
+raw_data <- gss%>%select(number_total_children_intention, age, sex,
+                      education, self_rated_health,
+                      self_rated_mental_health, income_respondent)
+#Rename
+mdata <- raw_data%>%rename(health = self_rated_health,
+                        mental_health=self_rated_mental_health,
+                        income=income_respondent)
+#Filter NA
+mdata <- mdata%>%filter(!is.na(number_total_children_intention))
+mdata <- mdata%>%filter(mental_health != "Don't know")
+mdata <- mdata%>%filter(health != "Don't know")
+mdata <- mdata%>%filter(!is.na(education))
+#Group age
+mdata$age_group = mdata$age
+mdata$age_group[mdata$age_group<= 25] <- "15-25"
+mdata$age_group[mdata$age_group<= 35 & mdata$age_group > 25] <- "25-35"
+mdata$age_group[mdata$age_group<= 45 & mdata$age_group > 35] <- "35-45"
+mdata$age_group[mdata$age_group<= 55 & mdata$age_group > 45] <- "45-55"
+mdata$age_group[mdata$age_group > 55] <- "55-80"
+#Group Education
+mdata$education[mdata$education == 'High school diploma or a high school equivalency certificate'] <- 'High School'
+mdata$education[mdata$education == "Bachelor's degree (e.g. B.A., B.Sc., LL.B.)"] <- 'Bachelor'
+mdata$education[mdata$education == "University certificate, diploma or degree above the bach..."] <- 'Bachelor'
+mdata$education[mdata$education == "College, CEGEP or other non-university certificate or di..."] <- 'College'
+mdata$education[mdata$education == "University certificate or diploma below the bachelor's level"] <- 'College'
+mdata$education[mdata$education == "Less than high school diploma or its equivalent"] <- 'Below High School'
+mdata$education[mdata$education == "Trade certificate or diploma"] <- 'Trade Cert'
+#Children intention
+mdata<-mdata%>%rename(children_intention = number_total_children_intention)
+mdata$intentionYN = mdata$children_intention
+mdata$intentionYN[mdata$intentionYN != 0] <- "Yes"
+mdata$intentionYN[mdata$intentionYN == 0] <- "No"
+mdata$children_intention[mdata$children_intention != 0] <- 1
+mdata$children_intention[mdata$children_intention == 0] <- 0
+```
+### Data Cleaning
+
+As mentioned before, we will focus on the variable number_total_children_intention, age, sex, income_respondent, education, self_rated_health, and self_rated_mental_health. We cleaned our data by renaming self_rated_health as health, self_rated_mental_health as mental_health, income_respondent as income and number_total_children_intention as children_intention. Then, we have removed all NAs in the children_intention and education as they were meaningless for our later analysis. For the same reason, we have also decided to remove all “Don’t know” values in the variables health and mental_health. 
+  
+In addition, we divided age into 5 groups, which were 15 - 25, 25 -35, 35-45, 45-55 and above 55. The reason we did that is that we would like to look at the percentage in each age group later in our table 1: Respondent Demographic. After that, we have also renamed and reduced the categories of the degrees as to make our later analysis clearer. The details about how we renamed and reduced the categories of the degrees under education will be in our appendix^1. In the end, since the majority of the responses for the question "Total number of children intending to have" are 0, we decide to divide the responses into two categories "1" and "0". Responses greater than 0 will be redefined as "1", while answers with 0 correspond to "0". Therefore, by running the logistic regression, we would like to find what affects people's decision on whether or not to have children. This binary variable with "1" representing people having fertility intention, while 0 representing people with no intention for having children.
+
+We divided respondents to different age groups when exhibiting the demographic table because this will makes it more convenient to identify the distribution of respondents' ages at the aggregate level. However, in our logistic regression model, we still use age rather than age groups, since we would like to see if there is a trend that people's intentions for children will decrease as age increases. Therefore, using age would be more helpful for our analysis. Besides, gender and education level, health conditions are all categorical variables, because these variables' values represent different categories of respondents. Among these categorical variables, except gender, all other 3 are ordinal categorical variables, because they represent different levels in which respondents are.
+
+### Model building and selection
+
+We selected children_intention as the response variable, which represents whether people want to have children or not, while the candidate predictor variables include age, sex, self rated health, self rated mental health and education. Since children intention is a binary response variable that has two possible outcomes, a logistic regression model was fitted to estimate the probability that someone intend to have children using all predictor variables. The reason why linear regression model is not appropriate here is that it will cause the response variable to exceed 1 or drop below 0, while probability must be between 0 and 1. Logistic regression model works better in predicting binary response variable as it take the form of log($\frac{p}{1-p}$) = $\beta_0$ + $\beta_1X_1$ + $\beta_2X_2$ + $\cdots$ + $\beta_kX_k$ In current study, p represents the probability of intention to have children, Xs represent the value of predictor variables, and  $\beta$s are the coefficients that we want to derive from the fitted model.
+Also, as we are using a survey data, we applied finite population correction to adjust the variance estimate for our estimated mean probability of intention to have children. The target population size is  30302287 by estimation, and the sample size after data cleaning is 8339. 
+In terms of software, we have used Rstudio to run out model.
+According to the first model (table 2) fitted using all candidate predictors, self rated health was not statistically significant, suggesting that people rated their health condition in different levels won't affect their intention to have children. Therefore, we removed self rated health from the predictors, and the final model only include age, sex, self rated mental health and education as predictor variables.
+
+
+```{r, echo = FALSE}
+
+N <- 30302287
+n <- nrow(mdata)
+fpc.srs = rep(N, n)
+
+intention.design <- svydesign(id=~1, data=mdata, fpc=fpc.srs)
+
+mysvylm <- svyglm(children_intention ~ age+sex+
+             health+mental_health + education, intention.design,family="binomial")
+#summary(mysvylm)
+
+```
+
+Coefficients |      Estimate     | Std. Error | t value | Pr(>|t|) 
+-----------|:-----------: |:-----------: |:-----------: |:-----------: |
+(Intercept)                |6.735434    |0.181971  |37.014  |< 2e-16 ***
+age                        |-0.197509   |0.004705  |-41.976 |< 2e-16 ***
+sexMale                    |0.678505    |0.059234  |11.455  |< 2e-16 ***
+healthFair                 |0.135754    |0.163250  |0.832   |0.405675    
+healthGood                 |0.059717    |0.089997  |0.664   |0.507006    
+healthPoor                 |-0.179565   |0.273441  |-0.657  |0.511400    
+healthVery good            |-0.005551   |0.078291  |-0.071  |0.943480    
+mental_healthFair          |-0.983360   |0.145937  |-6.738  |1.71e-11 ***
+mental_healthGood          |-0.437811   |0.088014  |-4.974  |6.68e-07 ***
+mental_healthPoor          |-1.116372   |0.266125  |-4.195  |2.76e-05 ***
+mental_healthVery good     |-0.280481   |0.077857  |-3.603  |0.000317 ***
+educationBelow High School |-1.295755   |0.148857  |-8.705  |< 2e-16 ***
+educationCollege           |-0.258151   |0.069528  |-3.713  |0.000206 ***
+educationHigh School       |-0.704451   |0.086347  |-8.158  |3.90e-16 ***
+educationTrade Cert        |-0.448523   |0.116699  |-3.843  |0.000122 ***
+
+`r tab_cap(2,"First Model with age, sex, health, mental_health, education as predictors")`
+
+## Result
+
+The results will be presented in 3 sections according to the following characteristics: numeric results from logistic model, demographic profile and children intention under each variable.
+
+### Numeric Results from Logistic Model
+
+```{r, echo = FALSE}
+mysvylm2 <- svyglm(children_intention ~ age+sex+
+          mental_health + education, intention.design,family="binomial")
+#summary(mysvylm2)
+
+```
+Coefficients |      Estimate     | Std. Error | t value | Pr(>|t|) 
+-----------|:-----------: |:-----------: |:-----------: |:-----------: |
+(Intercept)                |6.729232    |0.180621  |37.256  |< 2e-16 ***
+age                        |-0.197160   |0.004684  |-42.088 |< 2e-16 ***
+sexMale                    |0.679359    |0.059191  |11.477  |< 2e-16 ***
+mental_healthFair          |-0.946465   |0.135755  |-6.972  |3.37e-12 ***
+mental_healthGood          |-0.410005   |0.076675  |-5.347  |9.17e-08 ***
+mental_healthPoor          |-1.107626   |0.247633  |-4.473  |7.82e-06 ***
+mental_healthVery good     |-0.279409   |0.070868  |-3.943  |8.13e-05 ***
+educationBelow High School |-1.284758   |0.148362  |-8.660  |< 2e-16 ***
+educationCollege           |-0.256493   |0.069484  |-3.691  |0.000224 ***
+educationHigh School       |-0.698500   |0.085857  |-8.136  |4.70e-16 ***
+educationTrade Cert        |-0.445445   |0.116397  |-3.827  |0.000131 ***
+
+`r tab_cap(3,"Final Model with age, sex, mental_health, education as predictors")`
+
+As shown in table 3 above, for every unit increase in age, we expect the log odds of intention of having children to decrease by 0.197. When the respondent is a male, then we expect the log odds of intention of having children to increase by 0.679. When the mental health situation are poor, fair, good, very good or excellent, we expect the log odds of intention of having children to decrease by 1.107, 0.946, 0.41, 0.279 or 0 respectively. When the education level is below high school, high school, trade cert, college or bachelor, we expect the log odds of intention of having children to decrease by 1.284,  0.699, 0.445, 0.257.
+
+### Demographic Profile
+
+```{r, echo = FALSE}
+#Demographic table
+sex <- mdata%>%group_by(sex)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(mdata),2)*100,"%"))
+age_group <- mdata%>%group_by(age_group)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(mdata),2)*100,"%"))
+education <- mdata%>%group_by(education)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(mdata),2)*100,"%"))
+mental_health <- mdata%>%group_by(mental_health)%>%count()%>%
+  mutate(prop=paste(round(n/nrow(mdata),2)*100,"%"))
+
+
+demogr <- rbind(sex,age_group%>%rename(sex=age_group),
+                education%>%rename(sex=education),
+                mental_health%>%rename(sex=mental_health))
+colnames(demogr) <- c("Variable", "Count", "Proportion")
+demogr <- demogr%>%kbl(caption="Respondent Demographics",
+                       align=c("lrr"))%>%
+  pack_rows("Sex",1,2)%>%pack_rows("Age",3,7)%>%pack_rows("Education",8,12)%>%pack_rows("Mental_Health",13,17)
+demogr
+```
+`r tab_cap(4,"Respondent Demographic")`
+
+As shown in table 4, 52% female and 48% male constituted our selected respondents. For Age, the breakdown consisted of 17% between 15 and 25, 30%  between 25 - 35, 35% between 35 - 45, 18% of 45 - 55 and 1 % above 55. For education, the breakdowns included 34% bachelor's degree and above, 9% below high school degree, 28% college degree, 22% high school degree and 7% trade certificates. For mental health, the responses consisted of 29% excellent, 7% fair, 27% good, 2% poor and 35% very good.
+
+
+### Children Intention under Each Variable
+
+```{r, echo = FALSE}
+##Children intention
+intention <- mdata%>%group_by(children_intention)%>%count()
+x <-  intention$n
+labels <-  intention$children_intention
+piepercent<- round(100*x/sum(x), 1)
+
+pie(x, labels = piepercent, main = " Percentage of Intention to Have Children in Canada",col = rainbow(length(x)))
+legend("topright", c("No","Yes"), cex = 0.8,
+   fill = rainbow(length(x)))
+```
+
+`r fig_cap(1,"Chilren Intention")`
+
+As shown in figure 1, about 59% of the respondents have no intention to have a kid and 41 % of the respondents have intention to have one or more kids.
+
+
+```{r, echo = FALSE}
+#Children intention (group by sex)
+mdata %>% 
+    group_by(sex) %>% 
+    count(intentionYN) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = sex, y = prop)) +
+    geom_col(aes(fill = intentionYN), position = "dodge") +
+    geom_text(aes(label = scales::percent(prop), 
+                  y = prop, 
+                  group = intentionYN),
+              position = position_dodge(width = 0.9),
+              vjust = 1.5)
+```
+
+`r fig_cap(2,"Children Intention by sex")`
+
+As shown in figure 2, female respondents have a 63.3% intention of not having a child. Male respondents have a 54.6% intention of not having a child. 
+
+```{r, echo = FALSE}
+#Children intention (group by education)
+mdata %>% 
+    group_by(education) %>% 
+    count(intentionYN) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = education, y = prop)) +
+    geom_col(aes(fill = intentionYN), position = "dodge") +
+    geom_text(aes(label = scales::percent(prop), 
+                  y = prop, 
+                  group = intentionYN),
+              position = position_dodge(width = 0.9),
+              vjust = 1.5)
+```
+
+`r fig_cap(3,"Children Intention by education")`
+
+As shown in figure 3, 60.8% of respondents with bachelor degree have no fertility intentions, 42% of respondents with below high school degree have no fertility intentions, 64.2% of respondents with college degree have no fertility intentions, 56.1 % of respondents with high school degree have no fertility intentions and 62.2% of respondents with trade certificates no fertility intentions. 
+
+
+
+```{r, echo = FALSE}
+#Children intention (group by mental health)
+mdata %>% 
+    group_by(mental_health) %>% 
+    count(intentionYN) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = mental_health, y = prop)) +
+    geom_col(aes(fill = intentionYN), position = "dodge") +
+    geom_text(aes(label = scales::percent(prop), 
+                  y = prop, 
+                  group = intentionYN),
+              position = position_dodge(width = 0.9),
+              vjust = 1.5)
+```
+
+`r fig_cap(4,"Children Intention by mental health")`
+
+As shown in figure 4, 53.4% of respondents with excellent mental health have no fertility intentions, 65.2% of respondents with fair mental health have no fertility intentions, 62.8 % of respondents with good mental health have no fertility intentions, 66.4% of respondents with poor mental health have no fertility intentions and 59.5% of respondents with very good mental health have no fertility intentions. 
+
+```{r, echo = FALSE}
+#Children intention (group by age group)
+mdata %>% 
+    group_by(age_group) %>% 
+    count(intentionYN) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = age_group, y = prop)) +
+    geom_col(aes(fill = intentionYN), position = "dodge") +
+    geom_text(aes(label = scales::percent(prop), 
+                  y = prop, 
+                  group = intentionYN),
+              position = position_dodge(width = 0.9),
+              vjust = 1.5)
+```
+
+`r fig_cap(5,"Children Intention by age_group")`
+
+As shown in figure 5, 16.4% of respondents of age between 15 and 25 have no fertility intentions, 36.1% of respondents of age between 25 and 35 have no fertility intentions, 79.4% of respondents of age between 35 and 45 have no fertility intentions, 95.2 % of respondents of age between 45 and 55 have no fertility intentions and 94.1% of respondents of age between 55 and 88 have no fertility intentions. 
+
 
 
