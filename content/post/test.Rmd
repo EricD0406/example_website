@@ -10,26 +10,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Authors: Sheng Kai, Shiqi Liu, Wuxin Dong 
+# 2020-10-19
+# Code and data supporting this analysis is available at: https://github.com/EricD0406/304PS-2
 
-We use @citetidyverse
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Abstract
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+As the trend of population aging increases, the fertility intentions of families have become a more crucial topic for the society as a whole. In this paper, we explore the survey data collected by the 2017 General Social Survey (GSS) on the Family to better understand what factors will affect people's intention for having children and how these factors will affect their intentions in Canada. Our findings have shown that the gender, age, health condition and education level will all affect people's decisions about whether or not to have children. Our study and analysis could have implications for policy makers and family researchers who are interested in people's fertility intention, since our study results could help them to better revise policy to encourage fertility and conduct future researches respectively.
 
-```{r cars}
-summary(cars)
-```
+## Introduction
 
-## Including Plots
+In today's society, the structures of family have changed a lot, but the role family plays in people's lives is irreplaceable. Children have always been an important component of the family, because people's intention to have children could imply the characteristics and socio-economic conditions of families. Understanding what affects people's intention to have children is an interesting topic for family researchers and policy makers. Many researches about whether or not people want to have children have been conducted, whose results can help them measure the changes in living conditions and well-being of families, and to assess the effects of family-related policy. Therefore, to determine what factors will affect people's intention to have children, and the number of total children they are intending to have is of significance.
 
-You can also embed plots, for example:
+Individual attitudes and behaviors regarding the intentions to have children tend to be influenced by their family system, communication and the attitudes of other family members (Marisa & Anne, 2017). Besides, personal attitudes towards life will also affect people's decision-making process on whether or not to have children, which means people who have positive attitude through the life are more likely to intend to have children, or to have more children than those who are relatively pessimistic. Furthermore, fertility intentions seem to differ between different gender groups. More specifically, men are more likely to have intentions for children than women. Moreover, educational level also contributes to people's decision-making about fertility. Some research has shown that people with higher education levels are less likely to intend to have children (Maria, 2014).
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+In this paper, through the study of the 2017 General Social Survey (GSS) on the Family, we find that people's feelings about life, their satisfaction towards life will affect people's intention to have children. Both physical and mental self-health conditions matter when deciding to have children. Beyond that, there are splits between different age and gender groups in terms of their fertility intentions.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+For analysis, we will firstly do data-cleaning to choose and preserve variables of our interest, which include number_total_children_intention, age, sex, education, self_rated_health, and self_rated_mental_health. To further investigate the demographic distribution of respondents, we also include income_respondent and region. With regard to the model, we would like to use Logistic Regression to analyze the effect of above factors on people's intention for whether or not having children.
 
-## References
+
